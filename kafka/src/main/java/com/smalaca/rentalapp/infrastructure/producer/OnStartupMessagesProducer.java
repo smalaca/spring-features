@@ -19,8 +19,8 @@ class OnStartupMessagesProducer {
     @EventListener
     public void publishEvents(ContextRefreshedEvent event) {
         IntStream.range(0, 20).forEach(index -> {
-            producer.sendApartment("Apartment " + index);
             producer.sendHotelRoom("Hotel Room " + index);
+            producer.send(new ApartmentDto(index));
         });
     }
 }
