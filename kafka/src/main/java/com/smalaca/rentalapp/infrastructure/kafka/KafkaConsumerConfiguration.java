@@ -37,10 +37,21 @@ public class KafkaConsumerConfiguration {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ApartmentDto> apartmentDtoKafkaListenerContainerFactory(
+    public ConcurrentKafkaListenerContainerFactory<String, ApartmentDto> apartmentDtoEvenKafkaListenerContainerFactory(
             @Value("${kafka.bootstrapAddress}") String bootstrapAddress) {
         ConcurrentKafkaListenerContainerFactory<String, ApartmentDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactoryApartmentDto(bootstrapAddress));
+        factory.setRecordFilterStrategy(record -> record.value().getNumber() % 2 != 0);
+
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ApartmentDto> apartmentDtoOddKafkaListenerContainerFactory(
+            @Value("${kafka.bootstrapAddress}") String bootstrapAddress) {
+        ConcurrentKafkaListenerContainerFactory<String, ApartmentDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactoryApartmentDto(bootstrapAddress));
+        factory.setRecordFilterStrategy(record -> record.value().getNumber() % 2 == 0);
 
         return factory;
     }
