@@ -5,12 +5,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HotelRoomListener {
-    @KafkaListener(topics = "${kafka.topic.hotel-room}", groupId = "${kafka.group.one}")
+    @KafkaListener(
+            topics = "${kafka.topic.hotel-room}",
+            groupId = "${kafka.group.one}",
+            containerFactory = "stringKafkaListenerContainerFactory")
     public void listenGroupOne(String message) {
         System.out.println("HOTEL ROOM: Group One: " + message);
     }
 
-    @KafkaListener(topics = "${kafka.topic.hotel-room}", groupId = "${kafka.group.two}")
+    @KafkaListener(
+            topics = "${kafka.topic.hotel-room}",
+            groupId = "${kafka.group.two}",
+            containerFactory = "stringKafkaListenerContainerFactory")
     public void listenGroupTwo(String message) {
         System.out.println("HOTEL ROOM: Group Two: " + message);
     }

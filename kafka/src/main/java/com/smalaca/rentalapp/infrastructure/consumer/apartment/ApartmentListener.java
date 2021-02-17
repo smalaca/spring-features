@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ApartmentListener {
-    @KafkaListener(topics = "${kafka.topic.apartment}", groupId = "${kafka.group.one}", containerFactory = "groupOneKafkaListenerContainerFactoryApartmentDto")
+    @KafkaListener(topics = "${kafka.topic.apartment}", groupId = "${kafka.group.one}", containerFactory = "apartmentDtoKafkaListenerContainerFactory")
     public void listenGroupOne(ApartmentDto apartmentDto) {
         System.out.println("APARTMENT: Group One: " + apartmentDto);
     }
 
-    @KafkaListener(topics = "${kafka.topic.apartment}", groupId = "${kafka.group.two}", containerFactory = "groupOneKafkaListenerContainerFactoryApartmentDto")
+    @KafkaListener(topics = "${kafka.topic.apartment}", groupId = "${kafka.group.two}", containerFactory = "apartmentDtoKafkaListenerContainerFactory")
     public void listenGroupTwo(ApartmentDto apartmentDto) {
         System.out.println("APARTMENT: Group Two: " + apartmentDto);
     }
