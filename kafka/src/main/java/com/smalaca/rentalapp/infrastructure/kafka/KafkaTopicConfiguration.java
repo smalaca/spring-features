@@ -30,7 +30,7 @@ public class KafkaTopicConfiguration {
         return newTopic(topicName);
     }
 
-    private NewTopic newTopic(@Value("${kafka.topic.hotel-room}") String topicName) {
+    private NewTopic newTopic(String topicName) {
         return new NewTopic(topicName, 1, (short) 1);
     }
 }
