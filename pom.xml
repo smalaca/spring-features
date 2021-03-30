@@ -10,6 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring-kafka</module>
+        <module>spring-kafka-testing</module>
+        <module>spring-kafka-testing-embedded</module>
     </modules>
 
     <name>spring-features</name>

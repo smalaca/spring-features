@@ -1,0 +1,6 @@
+spring:
+  kafka:
+    consumer:
+      group-id: smalaca
+test:
+  topic: my-topic
