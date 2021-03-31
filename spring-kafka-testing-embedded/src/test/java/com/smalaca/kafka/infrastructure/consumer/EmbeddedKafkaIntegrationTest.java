@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka(brokerProperties = { "listeners=PLAINTEXT://localhost:9010", "port=9010" })
+@EmbeddedKafka(brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 class EmbeddedKafkaIntegrationTest {
     @Autowired
     private MessageConsumer consumer;
