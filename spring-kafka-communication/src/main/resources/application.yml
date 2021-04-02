@@ -1,0 +1,11 @@
+topics:
+  topic-one: topic-one
+  topic-two: topic-two
+  topic-three: topic-three
+  topic-four: topic-four
+  topic-five: topic-five
+
+spring:
+  kafka:
+    consumer:
+      group-id: group-one

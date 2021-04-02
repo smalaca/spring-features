@@ -11,6 +11,7 @@
     <modules>
         <module>spring-kafka</module>
         <module>spring-kafka-testing-embedded</module>
+        <module>spring-kafka-communication</module>
     </modules>
 
     <name>spring-features</name>
