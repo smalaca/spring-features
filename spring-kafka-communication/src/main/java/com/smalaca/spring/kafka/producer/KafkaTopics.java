@@ -5,22 +5,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 @Component
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "topics")
 public class KafkaTopics {
-    private Map<String, String> topics;
+    private Map<String, String> simple;
 
-    void setTopics(Map<String, String> topics) {
-        this.topics = topics;
-    }
-
-    Stream<String> all() {
-        return topics.values().stream();
+    void setSimple(Map<String, String> simple) {
+        this.simple = simple;
     }
 
     void forEach(Consumer<String> consumer) {
-        topics.values().forEach(consumer);
+        simple.values().forEach(consumer);
     }
 }

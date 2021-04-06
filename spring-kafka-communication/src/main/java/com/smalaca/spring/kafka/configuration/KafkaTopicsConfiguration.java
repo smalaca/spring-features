@@ -9,27 +9,27 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicsConfiguration {
     @Bean
-    public NewTopic topicOne(@Value("${topics.topic-one}") String topicName) {
+    public NewTopic topicOne(@Value("${topics.simple.topic-one}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
 
     @Bean
-    public NewTopic topicTwo(@Value("${topics.topic-two}") String topicName) {
+    public NewTopic topicTwo(@Value("${topics.simple.topic-two}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
 
     @Bean
-    public NewTopic topicThree(@Value("${topics.topic-three}") String topicName) {
+    public NewTopic topicThree(@Value("${topics.simple.topic-three}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
 
     @Bean
-    public NewTopic topicFour(@Value("${topics.topic-four}") String topicName) {
+    public NewTopic topicFour(@Value("${topics.simple.topic-four}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
 
     @Bean
-    public NewTopic topicFive(@Value("${topics.topic-five}") String topicName) {
+    public NewTopic topicFive(@Value("${topics.with-header.topic-five}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
 }

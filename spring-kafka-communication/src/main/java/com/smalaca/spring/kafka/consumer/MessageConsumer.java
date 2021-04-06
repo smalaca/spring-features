@@ -11,22 +11,24 @@ import org.springframework.stereotype.Component;
 @Component
 class MessageConsumer {
     @KafkaListener(
-            topics = {"${topics.topic-one}", "${topics.topic-two}", "${topics.topic-three}", "${topics.topic-four}"})
+            topics = {
+                    "${topics.simple.topic-one}", "${topics.simple.topic-two}",
+                    "${topics.simple.topic-three}", "${topics.simple.topic-four}"})
     public void consumeOne(String message) {
         System.out.println("DEFAULT; " + message);
     }
 
-    @KafkaListener(topics = {"${topics.topic-one}"}, groupId = "group-two")
+    @KafkaListener(topics = {"${topics.simple.topic-one}"}, groupId = "group-two")
     public void consumerTwo(String message) {
         System.out.println("group-one; " + message);
     }
 
-    @KafkaListener(topics = {"${topics.topic-one}"}, groupId = "group-two")
+    @KafkaListener(topics = {"${topics.simple.topic-one}"}, groupId = "group-two")
     public void consumerThree(String message) {
         System.out.println("group-two; " + message);
     }
 
-    @KafkaListener(topics = {"${topics.topic-five}"}, groupId = "group-three")
+    @KafkaListener(topics = {"${topics.with-header.topic-five}"}, groupId = "group-three")
     public void consumerFour(
             @Payload String message,
             @Header("my-header") String myHeader,

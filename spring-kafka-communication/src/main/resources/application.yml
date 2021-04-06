@@ -1,9 +1,11 @@
 topics:
-  topic-one: topic-one
-  topic-two: topic-two
-  topic-three: topic-three
-  topic-four: topic-four
-  topic-five: topic-five
+  simple:
+    topic-one: topic-one
+    topic-two: topic-two
+    topic-three: topic-three
+    topic-four: topic-four
+  with-header:
+    topic-five: topic-five
 
 spring:
   kafka:

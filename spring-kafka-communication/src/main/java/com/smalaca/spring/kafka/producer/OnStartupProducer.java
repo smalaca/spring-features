@@ -16,24 +16,21 @@ import java.util.stream.IntStream;
 class OnStartupProducer {
     private final KafkaTemplate<String, String> template;
     private final KafkaTopics kafkaTopics;
-    private final String topicName;
+    private final String topicWithOwnHeader;
 
     OnStartupProducer(
-            KafkaTemplate<String, String> template, KafkaTopics kafkaTopics, @Value("${topics.topic-five}") String topicName) {
+            KafkaTemplate<String, String> template, KafkaTopics kafkaTopics,
+            @Value("${topics.with-header.topic-five}") String topicWithOwnHeader) {
         this.template = template;
         this.kafkaTopics = kafkaTopics;
-        this.topicName = topicName;
+        this.topicWithOwnHeader = topicWithOwnHeader;
     }
 
     @Async
     @EventListener
     public void listenerOne(ContextRefreshedEvent event) {
         IntStream.range(0, 10).forEach(index -> {
-            kafkaTopics.forEach(topicName -> {
-                if (!this.topicName.equals(topicName)) {
-                    template.send(topicName, message(index, topicName));
-                }
-            });
+            kafkaTopics.forEach(topicName -> template.send(topicName, message(index, topicName)));
         });
     }
 
@@ -41,8 +38,8 @@ class OnStartupProducer {
     @EventListener
     public void listenerTwo(ContextRefreshedEvent event) {
         IntStream.range(0, 10).forEach(index -> {
-            Message<String> message = MessageBuilder.withPayload("With HEADER" + message(index, topicName))
-                    .setHeader(KafkaHeaders.TOPIC, topicName)
+            Message<String> message = MessageBuilder.withPayload("With HEADER" + message(index, topicWithOwnHeader))
+                    .setHeader(KafkaHeaders.TOPIC, topicWithOwnHeader)
                     .setHeader("my-header", "header value " + index)
                     .build();
             template.send(message);
