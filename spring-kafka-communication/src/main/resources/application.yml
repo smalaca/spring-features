@@ -6,6 +6,8 @@ topics:
     topic-four: topic-four
   with-header:
     topic-five: topic-five
+  send-to:
+    topic-six: topic-six
 
 spring:
   kafka:

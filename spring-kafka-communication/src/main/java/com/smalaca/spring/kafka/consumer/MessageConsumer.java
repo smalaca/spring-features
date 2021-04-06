@@ -6,6 +6,7 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,18 +15,24 @@ class MessageConsumer {
             topics = {
                     "${topics.simple.topic-one}", "${topics.simple.topic-two}",
                     "${topics.simple.topic-three}", "${topics.simple.topic-four}"})
-    public void consumeOne(String message) {
+    @SendTo("${topics.send-to.topic-six}")
+    public String consumeOne(String message) {
         System.out.println("DEFAULT; " + message);
+        return "Consumer One: " + message;
     }
 
     @KafkaListener(topics = {"${topics.simple.topic-one}"}, groupId = "group-two")
-    public void consumerTwo(String message) {
+    @SendTo("${topics.send-to.topic-six}")
+    public String consumerTwo(String message) {
         System.out.println("group-one; " + message);
+        return "Consumer Two: " + message;
     }
 
     @KafkaListener(topics = {"${topics.simple.topic-one}"}, groupId = "group-two")
-    public void consumerThree(String message) {
+    @SendTo("${topics.send-to.topic-six}")
+    public String consumerThree(String message) {
         System.out.println("group-two; " + message);
+        return "Consumer Three: " + message;
     }
 
     @KafkaListener(topics = {"${topics.with-header.topic-five}"}, groupId = "group-three")
@@ -37,5 +44,10 @@ class MessageConsumer {
         System.out.println("group-three; " + message + "; " + partitionId);
         System.out.println("HEADERS with my header: " + myHeader);
         messageHeaders.forEach((s, s2) -> System.out.println(s + ": " + s2));
+    }
+
+    @KafkaListener(topics = {"${topics.send-to.topic-six}"}, groupId = "group-four")
+    public void consumerFive(String message) {
+        System.out.println("REPLIED WITH: " + message);
     }
 }
