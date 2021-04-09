@@ -10,12 +10,25 @@ import java.util.function.Consumer;
 @ConfigurationProperties(prefix = "topics")
 public class KafkaTopics {
     private Map<String, String> simple;
+    private Map<String, String> routing;
 
     void setSimple(Map<String, String> simple) {
         this.simple = simple;
     }
 
+    void setRouting(Map<String, String> routing) {
+        this.routing = routing;
+    }
+
     void forEach(Consumer<String> consumer) {
         simple.values().forEach(consumer);
+    }
+
+    String routingString() {
+        return routing.get("one");
+    }
+
+    String routingUser() {
+        return routing.get("two");
     }
 }

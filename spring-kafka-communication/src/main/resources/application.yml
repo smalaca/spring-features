@@ -8,6 +8,9 @@ topics:
     topic-five: topic-five
   send-to:
     topic-six: topic-six
+  routing:
+    one: string-topic
+    two: user-topic
 
 spring:
   kafka:

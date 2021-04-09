@@ -1,9 +1,11 @@
 package com.smalaca.spring.kafka.producer;
 
+import com.smalaca.spring.kafka.dto.UserDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.RoutingKafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
@@ -19,14 +21,17 @@ import java.util.stream.IntStream;
 class OnStartupProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private KafkaTemplate<String, String> kafkaTemplateWithProducerListener;
+    private RoutingKafkaTemplate routingKafkaTemplate;
     private final KafkaTopics kafkaTopics;
     private final String topicWithOwnHeader;
 
     OnStartupProducer(
             KafkaTemplate<String, String> kafkaTemplate, KafkaTemplate<String, String> kafkaTemplateWithProducerListener,
+            RoutingKafkaTemplate routingKafkaTemplate,
             KafkaTopics kafkaTopics, @Value("${topics.with-header.topic-five}") String topicWithOwnHeader) {
         this.kafkaTemplate = kafkaTemplate;
         this.kafkaTemplateWithProducerListener = kafkaTemplateWithProducerListener;
+        this.routingKafkaTemplate = routingKafkaTemplate;
         this.kafkaTopics = kafkaTopics;
         this.topicWithOwnHeader = topicWithOwnHeader;
     }
@@ -63,6 +68,15 @@ class OnStartupProducer {
                     .setHeader("my-header", "header value " + index)
                     .build();
             kafkaTemplateWithProducerListener.send(message);
+        });
+    }
+
+    @Async
+    @EventListener
+    public void listenerThree(ContextRefreshedEvent event) {
+        IntStream.range(0, 10).forEach(index -> {
+            routingKafkaTemplate.send(kafkaTopics.routingString(), message(index, kafkaTopics.routingString()));
+            routingKafkaTemplate.send(kafkaTopics.routingUser(), new UserDto("smalaca" + index));
         });
     }
 

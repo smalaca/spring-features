@@ -37,4 +37,14 @@ public class KafkaTopicsConfiguration {
     public NewTopic topicSix(@Value("${topics.send-to.topic-six}") String topicName) {
         return TopicBuilder.name(topicName).build();
     }
+
+    @Bean
+    public NewTopic topicSeven(@Value("${topics.routing.one}") String topicName) {
+        return TopicBuilder.name(topicName).build();
+    }
+
+    @Bean
+    public NewTopic topicEight(@Value("${topics.routing.two}") String topicName) {
+        return TopicBuilder.name(topicName).build();
+    }
 }
