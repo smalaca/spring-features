@@ -17,14 +17,16 @@ import java.util.stream.IntStream;
 
 @Component
 class OnStartupProducer {
-    private final KafkaTemplate<String, String> template;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplateWithProducerListener;
     private final KafkaTopics kafkaTopics;
     private final String topicWithOwnHeader;
 
     OnStartupProducer(
-            KafkaTemplate<String, String> template, KafkaTopics kafkaTopics,
-            @Value("${topics.with-header.topic-five}") String topicWithOwnHeader) {
-        this.template = template;
+            KafkaTemplate<String, String> kafkaTemplate, KafkaTemplate<String, String> kafkaTemplateWithProducerListener,
+            KafkaTopics kafkaTopics, @Value("${topics.with-header.topic-five}") String topicWithOwnHeader) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplateWithProducerListener = kafkaTemplateWithProducerListener;
         this.kafkaTopics = kafkaTopics;
         this.topicWithOwnHeader = topicWithOwnHeader;
     }
@@ -35,7 +37,7 @@ class OnStartupProducer {
         IntStream.range(0, 10).forEach(index -> {
             kafkaTopics.forEach(topicName -> {
                 String message = message(index, topicName);
-                ListenableFuture<SendResult<String, String>> future = template.send(topicName, message);
+                ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(topicName, message);
 
                 future.addCallback(new ListenableFutureCallback<>() {
                     @Override
@@ -60,7 +62,7 @@ class OnStartupProducer {
                     .setHeader(KafkaHeaders.TOPIC, topicWithOwnHeader)
                     .setHeader("my-header", "header value " + index)
                     .build();
-            template.send(message);
+            kafkaTemplateWithProducerListener.send(message);
         });
     }
 
