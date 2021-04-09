@@ -11,5 +11,4 @@ topics:
 
 spring:
   kafka:
-    consumer:
-      group-id: group-one
+    bootstrap-servers: localhost:9092
