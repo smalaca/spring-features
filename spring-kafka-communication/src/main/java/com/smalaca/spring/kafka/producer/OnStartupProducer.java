@@ -5,10 +5,13 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.stream.IntStream;
 
@@ -30,7 +33,22 @@ class OnStartupProducer {
     @EventListener
     public void listenerOne(ContextRefreshedEvent event) {
         IntStream.range(0, 10).forEach(index -> {
-            kafkaTopics.forEach(topicName -> template.send(topicName, message(index, topicName)));
+            kafkaTopics.forEach(topicName -> {
+                String message = message(index, topicName);
+                ListenableFuture<SendResult<String, String>> future = template.send(topicName, message);
+
+                future.addCallback(new ListenableFutureCallback<>() {
+                    @Override
+                    public void onFailure(Throwable exception) {
+                        System.out.println("EXCEPTION THROWN: " + message);
+                    }
+
+                    @Override
+                    public void onSuccess(SendResult<String, String> result) {
+                        System.out.println("SUCCESS: " + message);
+                    }
+                });
+            });
         });
     }
 
