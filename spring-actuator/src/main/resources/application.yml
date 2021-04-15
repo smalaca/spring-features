@@ -2,3 +2,11 @@ spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
+
+info:
+  app:
+    name: Spring Actuator
+    version: 1.0.0-SNAPSHOT
+  blog:
+    link: http://letstalkaboutjava.blogspot.com/
+    author: Sebastian Malaca
