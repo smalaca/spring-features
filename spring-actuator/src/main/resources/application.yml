@@ -1,4 +1,6 @@
 spring:
+  jmx:
+    enabled: true
   jackson:
     serialization:
       INDENT_OUTPUT: true
@@ -10,3 +12,12 @@ info:
   blog:
     link: http://letstalkaboutjava.blogspot.com/
     author: Sebastian Malaca
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
