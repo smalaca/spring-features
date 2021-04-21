@@ -18,6 +18,7 @@ management:
     port: 8123
   endpoints:
     web:
+      base-path: /app-monitoring
       exposure:
         include: "*"
   endpoint:
