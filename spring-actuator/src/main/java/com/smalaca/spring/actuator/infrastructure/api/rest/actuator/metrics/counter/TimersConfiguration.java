@@ -5,6 +5,8 @@ import io.micrometer.core.instrument.Timer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Duration;
+
 @Configuration
 public class TimersConfiguration {
     @Bean
@@ -12,6 +14,7 @@ public class TimersConfiguration {
         return Timer
                 .builder("api.history.time")
                 .description("Time taken to create event in history")
+                .sla(Duration.ofMillis(10))
                 .register(registry);
     }
 }
