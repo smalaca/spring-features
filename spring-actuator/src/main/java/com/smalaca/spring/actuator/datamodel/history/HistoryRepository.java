@@ -1,4 +1,4 @@
-package com.smalaca.spring.actuator.readmodel.history;
+package com.smalaca.spring.actuator.datamodel.history;
 
 import org.springframework.data.repository.CrudRepository;
 

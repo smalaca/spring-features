@@ -1,4 +1,4 @@
-package com.smalaca.spring.actuator.readmodel.history;
+package com.smalaca.spring.actuator.datamodel.history;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ public class History {
 
     private History() {}
 
-    private History(String name) {
+    public History(String name) {
         this.name = name;
     }
 }
