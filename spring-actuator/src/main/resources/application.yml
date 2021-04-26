@@ -8,7 +8,8 @@ spring:
 info:
   app:
     name: Spring Actuator
-    version: 1.0.0-SNAPSHOT
+    version: '@project.version@'
+    build-timestamp: '@maven.build.timestamp@'
   blog:
     link: http://letstalkaboutjava.blogspot.com/
     author: Sebastian Malaca
