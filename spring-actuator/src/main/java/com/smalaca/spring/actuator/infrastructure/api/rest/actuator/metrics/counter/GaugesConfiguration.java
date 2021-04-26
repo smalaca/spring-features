@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GaugesConfiguration {
     @Bean
-    public Gauge countProfilesGauge(MeterRegistry registry, HistoryRepository repository) {
+    public Gauge historyCounter(MeterRegistry registry, HistoryRepository repository) {
         return Gauge
                 .builder("api.history.count", repository::count)
                 .description("Amount of events in history")
